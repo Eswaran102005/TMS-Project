@@ -18,7 +18,7 @@ router.get('/seed-db', async (req, res) => {
       dept = await Department.create({ name: 'General Department', shortName: 'GEN' });
     }
 
-    const hashedPassword = await bcrypt.hash('password123', 10);
+    const hashedPassword = await bcrypt.hash('kudu', 10);
     const superAdminHashedPassword = await bcrypt.hash('SuperAdmin@123', 10);
 
     const usersToCreate = [

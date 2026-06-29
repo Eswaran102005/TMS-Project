@@ -73,6 +73,10 @@ const UserComplaintDashboardPage = () => {
     }
   };
 
+  const selectedIsStaff = selectedComplaint?.assignedTo && String(selectedComplaint.assignedTo._id || selectedComplaint.assignedTo) === String(user?._id || user?.id);
+  const selectedIsOwner = selectedComplaint?.createdBy && String(selectedComplaint.createdBy._id || selectedComplaint.createdBy) === String(user?._id || user?.id);
+  const canManageSelected = selectedComplaint && user?.role !== 'User' && (user?.role === 'SuperAdmin' || selectedIsStaff || selectedIsOwner);
+
   if (loading) return <div className="master-screen"><p>Loading...</p></div>;
 
   return (
@@ -123,7 +127,7 @@ const UserComplaintDashboardPage = () => {
               {filteredComplaints.map((c) => {
                 const isStaff = c.assignedTo && String(c.assignedTo._id || c.assignedTo) === String(user?._id || user?.id);
                 const isOwner = c.createdBy && String(c.createdBy._id || c.createdBy) === String(user?._id || user?.id);
-                const canManage = user?.role === 'SuperAdmin' || isStaff || isOwner;
+                const canManage = user?.role !== 'User' && (user?.role === 'SuperAdmin' || isStaff || isOwner);
 
                 return (
                   <tr key={c._id}>
@@ -187,27 +191,29 @@ const UserComplaintDashboardPage = () => {
                 <p>{selectedComplaint.remarks || "No additional remarks provided."}</p>
               </div>
 
-              <div className="status-portal" style={{ marginTop: '3rem' }}>
-                <label style={{ color: 'var(--color-coral)', fontSize: '0.7rem', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.2em', display: 'block', marginBottom: '1rem' }}>
-                  State Transition
-                </label>
-                <div className="status-update-box">
-                  <select
-                    value={selectedStatus}
-                    onChange={(e) => setSelectedStatus(e.target.value)}
-                    className="status-select"
-                  >
-                    <option value="">-- Select New State --</option>
-                    <option value="Pending">Pending</option>
-                    <option value="In-Progress"> Process</option>
-                    <option value="Onhold">Hold</option>
-                    <option value="Closed">Closed</option>
-                  </select>
-                  <button onClick={handleStatusUpdate} className="btn-primary" style={{ marginTop: '1rem', width: '100%' }}>
-                    VALIDATE STATUS CHANGE
-                  </button>
+              {canManageSelected && (
+                <div className="status-portal" style={{ marginTop: '3rem' }}>
+                  <label style={{ color: 'var(--color-coral)', fontSize: '0.7rem', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.2em', display: 'block', marginBottom: '1rem' }}>
+                    State Transition
+                  </label>
+                  <div className="status-update-box">
+                    <select
+                      value={selectedStatus}
+                      onChange={(e) => setSelectedStatus(e.target.value)}
+                      className="status-select"
+                    >
+                      <option value="">-- Select New State --</option>
+                      <option value="Pending">Pending</option>
+                      <option value="In-Progress"> Process</option>
+                      <option value="Onhold">Hold</option>
+                      <option value="Closed">Closed</option>
+                    </select>
+                    <button onClick={handleStatusUpdate} className="btn-primary" style={{ marginTop: '1rem', width: '100%' }}>
+                      VALIDATE STATUS CHANGE
+                    </button>
+                  </div>
                 </div>
-              </div>
+              )}
 
               {selectedComplaint.attachment && (
                 <div style={{ marginTop: '2rem', textAlign: 'center' }}>

@@ -183,6 +183,11 @@ exports.updateStatus = async (req, res) => {
       return res.status(400).json({ message: 'Invalid status' });
     }
 
+    // Regular User role is NOT allowed to update status
+    if (requester.role === 'User') {
+      return res.status(403).json({ message: 'Regular users cannot update complaint status' });
+    }
+
     const complaint = await Complaint.findById(complaintId)
       .populate('assignedTo', '_id')
       .populate('createdBy', '_id');
@@ -198,20 +203,11 @@ exports.updateStatus = async (req, res) => {
 
     // Staff/Technician: must be assignedTo and can set limited statuses
     const isAssignee = complaint.assignedTo && String(complaint.assignedTo._id) === String(requester.id);
-    // Complaint creator may also be allowed to change certain statuses (e.g., Pending, Closed)
-    const isCreator = complaint.createdBy && String(complaint.createdBy._id || complaint.createdBy) === String(requester.id);
 
-    if (!isAssignee && !isCreator) return res.status(403).json({ message: 'Only assigned staff or complaint creator can update status' });
+    if (!isAssignee) return res.status(403).json({ message: 'Only assigned staff can update status' });
 
-    if (isAssignee) {
-      const staffAllowed = ['In-Progress', 'Onhold', 'Closed'];
-      if (!staffAllowed.includes(status)) return res.status(403).json({ message: 'Assigned staff cannot set this status' });
-    }
-
-    if (isCreator) {
-      const creatorAllowed = ['Pending', 'Closed'];
-      if (!creatorAllowed.includes(status)) return res.status(403).json({ message: 'Complaint creator cannot set this status' });
-    }
+    const staffAllowed = ['In-Progress', 'Onhold', 'Closed'];
+    if (!staffAllowed.includes(status)) return res.status(403).json({ message: 'Assigned staff cannot set this status' });
 
     complaint.status = status;
     await complaint.save();

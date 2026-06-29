@@ -187,18 +187,21 @@ select:focus {
 
 /* Unique Table Design */
 .table-container {
-  overflow: hidden;
+  overflow-x: auto;
   border-radius: 12px;
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
 }
 
+
 .master-table {
+  min-width: 900px;
   width: 100%;
   border-collapse: separate;
   border-spacing: 0 8px;
   margin-top: -8px;
 }
+
 
 .master-table th {
   background: var(--color-charcoal);
