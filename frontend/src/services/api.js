@@ -10,6 +10,7 @@ const getToken = () => {
 
 const api = axios.create({
   baseURL: API_BASE_URL,
+  timeout: 15000, // 15s timeout — handles Render.com cold starts
 });
 
 api.interceptors.request.use((config) => {
@@ -19,6 +20,17 @@ api.interceptors.request.use((config) => {
   }
   return config;
 });
+
+// Response interceptor — log 401 errors (AuthContext handles actual logout)
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      console.warn('401 Unauthorized — token may be invalid or expired.');
+    }
+    return Promise.reject(error);
+  }
+);
 
 export const authService = {
   login: (email, password) =>

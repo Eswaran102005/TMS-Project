@@ -20,7 +20,17 @@ const ProtectedRoute = ({ children }) => {
   const { isAuthenticated, loading } = useContext(AuthContext);
 
   if (loading) {
-    return <div className="loading">Loading...</div>;
+    return (
+      <div className="loading">
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: '2rem', marginBottom: '12px' }}>⏳</div>
+          <div>Connecting to server...</div>
+          <div style={{ fontSize: '0.85rem', marginTop: '8px', opacity: 0.7 }}>
+            Server may be waking up. Please wait...
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return isAuthenticated ? children : <Navigate to="/login" />;
@@ -30,7 +40,17 @@ const SuperAdminRoute = ({ children }) => {
   const { user, loading, isAuthenticated } = useContext(AuthContext);
 
   if (loading) {
-    return <div className="loading">Loading...</div>;
+    return (
+      <div className="loading">
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: '2rem', marginBottom: '12px' }}>⏳</div>
+          <div>Connecting to server...</div>
+          <div style={{ fontSize: '0.85rem', marginTop: '8px', opacity: 0.7 }}>
+            Server may be waking up. Please wait...
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return isAuthenticated && user?.role === 'SuperAdmin' ? children : <Navigate to="/" />;
