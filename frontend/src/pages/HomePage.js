@@ -47,7 +47,7 @@ const HomePage = () => {
         )}
       </div>
 
-      <style jsx>{`
+      <style>{`
         .home-container {
           width: 100%;
           min-height: 100vh;

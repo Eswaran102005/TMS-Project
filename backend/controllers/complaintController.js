@@ -30,7 +30,9 @@ exports.createComplaint = async (req, res) => {
 
     await complaint.save();
 
-    res.status(201).json({ message: 'Complaint created', complaint });
+    const complaintObj = complaint.toObject();
+    complaintObj.id = complaintObj._id.toString();
+    res.status(201).json({ message: 'Complaint created', complaint: complaintObj });
   } catch (error) {
     res.status(500).json({ message: 'Failed to create complaint', error: error.message });
   }

@@ -58,7 +58,7 @@ const SuperAdminRoute = ({ children }) => {
 
 function App() {
   return (
-    <Router basename='/TMS'>
+    <Router basename='/TMS' future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <AuthProvider>
         <Navbar />
         <Routes>

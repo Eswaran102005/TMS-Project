@@ -26,9 +26,9 @@ export const AuthProvider = ({ children }) => {
       const status = error.response?.status;
       console.error('Failed to fetch profile:', error.message);
 
-      if (status === 401 || status === 403) {
-        // Token is invalid or expired — force logout
-        console.warn('Token invalid. Logging out.');
+      if (status === 401 || status === 403 || status === 404) {
+        // Token is invalid, expired, or user not found — force logout
+        console.warn('Token invalid or user not found. Logging out.');
         localStorage.removeItem('token');
         setToken(null);
         setUser(null);

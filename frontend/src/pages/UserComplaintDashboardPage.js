@@ -227,7 +227,7 @@ const UserComplaintDashboardPage = () => {
         </div>
       )}
 
-      <style jsx>{`
+      <style>{`
         .detail-header { margin-bottom: 2rem; }
         .detail-item label, .detail-remarks label {
           display: block;
