@@ -56,9 +56,11 @@ const SuperAdminRoute = ({ children }) => {
   return isAuthenticated && user?.role === 'SuperAdmin' ? children : <Navigate to="/" />;
 };
 
+const basename = window.location.hostname === 'eswaran102005.github.io' ? '/TMS-Project' : '';
+
 function App() {
   return (
-    <Router basename='/TMS' future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+    <Router basename={basename} future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <AuthProvider>
         <Navbar />
         <Routes>
