@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/TMS-Project/static/css/main.a306aede.css",
+    "main.js": "/TMS-Project/static/js/main.57eca4f1.js",
+    "index.html": "/TMS-Project/index.html",
+    "main.a306aede.css.map": "/TMS-Project/static/css/main.a306aede.css.map",
+    "main.57eca4f1.js.map": "/TMS-Project/static/js/main.57eca4f1.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a306aede.css",
+    "static/js/main.57eca4f1.js"
+  ]
+}
