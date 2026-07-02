@@ -245,17 +245,6 @@ See [POSTMAN_SETUP.md](./POSTMAN_SETUP.md) for detailed instructions.
 - Electrician - Access to electrical-related complaints
 - Software Developer - Access to software-related complaints
 
-## Environment Variables
-
-Backend `.env` file should contain:
-```
-MONGODB_URI=mongodb://localhost:27017/tms-complaints
-PORT=5000
-JWT_SECRET=your_secret_key_here_change_in_production
-JWT_EXPIRY=7d
-NODE_ENV=development
-```
-
 ## License
 
 ISC
